@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using Player;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Traps
 {
     public class WindTrap: Trap
     {
-        [SerializeField] private float _delay;
+        [Header("Affect settings")]
         [SerializeField] private float _windForce;
 
         private Coroutine _windCoroutine;
@@ -37,7 +36,7 @@ namespace Traps
         private IEnumerator Blow()
         {
             GiveVelocityToUnits(_allowedDirections[Random.Range(0, _allowedDirections.Count)] * _windForce);
-            yield return new WaitForSeconds(_delay);
+            yield return new WaitForSeconds(RechargeDelay);
             _windCoroutine = null;
         }
 

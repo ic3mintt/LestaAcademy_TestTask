@@ -7,11 +7,10 @@ namespace Traps
 {
     public class DamageTrap: Trap
     {
-        [SerializeField] private float _damage;
-        [Header("Time")]
-        [SerializeField] private float _rechargeDelay = 5f;
         [SerializeField] private float _beforeHitDelay = 1f;
-        [Header("Visual")]
+        [Header("Affect settings")]
+        [SerializeField] private float _damage;
+        [Header("Visual settings")]
         [SerializeField] private Material _startMaterial;
         [SerializeField] private Material _pressedMaterial;
         [SerializeField] private Material _hitMaterial;
@@ -39,7 +38,7 @@ namespace Traps
             
             GiveDamage();
             
-            yield return new WaitForSeconds(_rechargeDelay);
+            yield return new WaitForSeconds(RechargeDelay);
             _meshRenderer.material = _startMaterial;
             
             _hitCoroutine = null;

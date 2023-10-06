@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Player
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerMover : MonoBehaviour, IChangable
     {
         [Header("Values")]
@@ -12,59 +13,63 @@ namespace Player
         [SerializeField] private float _slideForce;
         
         [Header("Components")]
-        [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private InputHandler _inputHandler;
-        [SerializeField] private PlayerStopper _playerStopper;
+        [SerializeField] private MovementInAnimation movementInAnimation;
+
         
+        public event Action OnSliding; 
+        public event Action<Vector3> OnMoving;
+        
+        private Rigidbody _rigidbody;
+        private float _distanceToFeet;
         private bool _isJumpKeyPressed;
         private Vector3 _movementDirection;
         private Vector3 _additionalVelocity;
 
-        public event Action OnSliding; 
-        public event Action<Vector3> OnMoving;
-
+        private void Start()
+        {
+            _distanceToFeet = transform.localScale.y / 2 + 0.1f;
+            _rigidbody = GetComponent<Rigidbody>();
+        }
+        
         private void OnEnable()
         {
-            _inputHandler.OnWASDChange += (direction) => _movementDirection = direction;
+            _inputHandler.OnWASDChange += direction => _movementDirection = direction;
             _inputHandler.OnSpaceDown += () => _isJumpKeyPressed = true;
         }
 
         private void OnDisable()
         {
-            _inputHandler.OnWASDChange -= (direction) => _movementDirection = direction;
+            _inputHandler.OnWASDChange -= direction => _movementDirection = direction;
             _inputHandler.OnSpaceDown -= () => _isJumpKeyPressed = true;
         }
 
         private void Update()
-        {if (_playerStopper.IsStopped)
-            {
-                OnMoving?.Invoke(Vector3.zero);
+        {
+            if (movementInAnimation.IsStopped)
                 return;
-            }
+            
             Move();
         }
 
         private void FixedUpdate()
         {
-            if(_playerStopper.IsStopped) return;
+            if(movementInAnimation.IsStopped) return;
             
-            if (_isJumpKeyPressed && Mathf.Approximately(_movementDirection.x, 0f) 
-                && _movementDirection.z > 0)
+            if (_isJumpKeyPressed && _movementDirection.z >= 0)
             {
-                var position = transform.position;
-                if (Physics.Raycast(position, -transform.up,  position.y + 0.1f))
+                if (Physics.Raycast(transform.position, -transform.up, _distanceToFeet))
                 {
                     Slide();
                 }
-                _isJumpKeyPressed = false;
             }
+            _isJumpKeyPressed = false;
         }
 
         private void Move()
         {
             var delta = transform.TransformDirection(_movementDirection * (_speed * Time.deltaTime));
-            _rigidbody.position += delta;
-            _rigidbody.position += _additionalVelocity * Time.deltaTime;
+            _rigidbody.position += delta + _additionalVelocity * Time.deltaTime;
             OnMoving?.Invoke(_movementDirection);
             
         }
@@ -74,7 +79,7 @@ namespace Player
             _rigidbody.AddForce(transform.up * _slideForce);
             OnSliding?.Invoke();
         }
-
+        
         public void Change(Vector3 additiveVelocity)
         {
             _additionalVelocity = additiveVelocity;

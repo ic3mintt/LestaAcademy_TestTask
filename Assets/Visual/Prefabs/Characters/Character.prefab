@@ -1838,9 +1838,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 4
   _slideForce: 450
-  _rigidbody: {fileID: 6346963041956659301}
   _inputHandler: {fileID: 0}
-  _playerStopper: {fileID: 315741147865118960}
+  movementInAnimation: {fileID: 315741147865118960}
 --- !u!114 &6346963041956659298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1867,7 +1866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a185b5a9650f4ac3b32014cabfd25bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 50
 --- !u!54 &6346963041956659301
 Rigidbody:
   m_ObjectHideFlags: 0

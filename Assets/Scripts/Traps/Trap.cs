@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public abstract class Trap : MonoBehaviour
 {
+    [Header("Time settings")]
+    [SerializeField] protected float RechargeDelay = 2f;
+        
     protected List<IChangable> Units;
     
     protected virtual void Start()

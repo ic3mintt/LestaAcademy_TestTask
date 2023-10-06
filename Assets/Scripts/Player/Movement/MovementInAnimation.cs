@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace DefaultNamespace
+namespace Player
 {
-    public class PlayerStopper : MonoBehaviour
+    public class MovementInAnimation : MonoBehaviour
     {
         public bool IsStopped { get; private set; }
         

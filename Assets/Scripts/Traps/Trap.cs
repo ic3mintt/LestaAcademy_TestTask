@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,9 +54,9 @@ public abstract class Trap : MonoBehaviour
             {
                 Units.Remove(unit);
             }    
-        }
-        catch{}
+        }catch{}
     }
     
-    protected virtual GameObject GetObject(Collider other) => other.gameObject.GetComponentInParent<Rigidbody>().gameObject;
+    protected virtual GameObject GetObject(Collider other) => 
+        other.gameObject.GetComponentInParent<Rigidbody>().gameObject;
 }

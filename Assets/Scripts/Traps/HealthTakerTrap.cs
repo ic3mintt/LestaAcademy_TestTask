@@ -51,11 +51,10 @@ namespace Traps
         {
             foreach (var unit in Units)
             {
-                if (unit.TryGetComponent(out PlayerHealth playerHealth))
-                {
-                    playerHealth.Health -= _damage;
-                }
+                unit.GetComponent<PlayerHealth>().Health -= _damage;
             }
         }
+
+        protected override GameObject GetObject(Collider other) => other.gameObject.GetComponentInParent<PlayerHealth>().gameObject;
     }
 }

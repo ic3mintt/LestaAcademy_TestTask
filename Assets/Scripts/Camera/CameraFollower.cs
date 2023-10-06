@@ -5,22 +5,25 @@ namespace Camera
 {
     public class CameraFollower : MonoBehaviour
     {
-        [SerializeField] private Transform _target;
+        [SerializeField] private float _yOffset;
         [SerializeField] private Vector3 _cameraOffset;
-        [SerializeField] private Vector3 _targetOffset;
+        [SerializeField] private Transform _target;
 
         private void Update()
         {
             Move();
             Rotate();
         }
-        
-        private void Move() => transform.position = _target.TransformPoint(_cameraOffset);
+
+        private void Move()
+        {
+            transform.position = _target.TransformPoint(_cameraOffset);
+        }
 
         private void Rotate()
         {
             var direction = _target.position - transform.position;
-            direction += _targetOffset;
+            direction.y = _yOffset;
             transform.rotation = Quaternion.LookRotation(direction.normalized);
         }
     }

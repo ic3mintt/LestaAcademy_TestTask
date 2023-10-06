@@ -1,4 +1,5 @@
 ﻿using System;
+using DefaultNamespace;
 using GameInput;
 using UnityEngine;
 
@@ -6,19 +7,22 @@ namespace Player
 {
     public class PlayerMover : MonoBehaviour
     {
+        [Header("Values")]
         [SerializeField] private float _speed;
         [SerializeField] private float _slideForce;
+        
+        [Header("Components")]
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private InputHandler _inputHandler;
+        [SerializeField] private PlayerStopper _playerStopper;
         
         [HideInInspector] public Vector3 AdditionalVelocity;
         
-        private bool _isStopped;
         private bool _isAllowedSlide;
         private Vector3 _movementDirection;
 
         public event Action OnSliding; 
-        public event Action<Vector3> OnMoving; 
+        public event Action<Vector3> OnMoving;
 
         private void OnEnable()
         {
@@ -33,8 +37,7 @@ namespace Player
         }
 
         private void Update()
-        {
-            if (_isStopped)
+        {if (_playerStopper.IsStopped)
             {
                 OnMoving?.Invoke(Vector3.zero);
                 return;
@@ -44,11 +47,12 @@ namespace Player
 
         private void FixedUpdate()
         {
-            if(_isStopped) return;
+            if(_playerStopper.IsStopped) return;
             
             if (_isAllowedSlide)
             {
-                if (Physics.Raycast(transform.position + new Vector3(0,0.4f,0), -transform.up, 0.45f))
+                var position = transform.position;
+                if (Physics.Raycast(position, -transform.up,  position.y + 0.1f))
                 {
                     Slide();
                 }
@@ -69,8 +73,5 @@ namespace Player
             _rigidbody.AddForce(transform.up * _slideForce);
             OnSliding?.Invoke();
         }
-
-        public void StopMovement() => _isStopped = true;
-        public void AllowMovement() => _isStopped = false;
     }
 }

@@ -7,8 +7,6 @@ using Random = UnityEngine.Random;
 
 namespace Traps
 {
-    
-    
     public class WindTrap: Trap
     {
         [SerializeField] private float _windForce;
@@ -48,6 +46,7 @@ namespace Traps
             {
                 if (unit.TryGetComponent(out PlayerMover playerMover))
                 {
+                    playerMover.AdditionalVelocity = Vector3.zero;
                     playerMover.AdditionalVelocity = velocity;
                 }
             }
@@ -61,8 +60,10 @@ namespace Traps
                 {
                     playerMover.AdditionalVelocity = Vector3.zero;
                 }
-            }
-            catch (Exception e) { }
+            }catch (Exception e) { }
         }
+
+        protected override GameObject GetObject(Collider other) =>
+            other.gameObject.GetComponentInParent<PlayerMover>().gameObject;
     }
 }

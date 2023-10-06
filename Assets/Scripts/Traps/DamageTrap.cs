@@ -1,10 +1,11 @@
 ﻿using System.Collections;
+using DefaultNamespace;
 using Player;
 using UnityEngine;
 
 namespace Traps
 {
-    public class HealthTakerTrap: Trap
+    public class DamageTrap: Trap
     {
         [SerializeField] private float _damage;
         [Header("Time")]
@@ -26,10 +27,7 @@ namespace Traps
 
         protected override void Activate()
         {
-            if (_hitCoroutine == null)
-            {
-                _hitCoroutine = StartCoroutine(Hit());
-            }
+            _hitCoroutine ??= StartCoroutine(Hit());
         }
 
         private IEnumerator Hit()
@@ -49,12 +47,13 @@ namespace Traps
 
         private void GiveDamage()
         {
-            foreach (var unit in Units)
+            foreach (var playerHealth in Units)
             {
-                unit.GetComponent<PlayerHealth>().Health -= _damage;
+                playerHealth.Change(new Vector3(_damage, 0, 0));
             }
         }
 
-        protected override GameObject GetObject(Collider other) => other.gameObject.GetComponentInParent<PlayerHealth>().gameObject;
+        protected override IChangable GetObject(Collider other) => 
+            other.gameObject.GetComponent<PlayerHealth>();
     }
 }

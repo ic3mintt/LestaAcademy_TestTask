@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using Player;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Traps
 {
     public class WindTrap: Trap
     {
-        [SerializeField] private float _windForce;
         [SerializeField] private float _delay;
+        [SerializeField] private float _windForce;
 
-        private bool _isAllowedBlowing;
         private Coroutine _windCoroutine;
         private List<Vector3> _allowedDirections;
 
@@ -30,7 +31,7 @@ namespace Traps
 
         protected override void Activate()
         {
-            if (_windCoroutine == null) _windCoroutine = StartCoroutine(Blow());
+            _windCoroutine ??= StartCoroutine(Blow());
         }
 
         private IEnumerator Blow()
@@ -42,13 +43,10 @@ namespace Traps
 
         private void GiveVelocityToUnits(Vector3 velocity)
         {
-            foreach (var unit in Units)
+            foreach (var playerVelocity in Units)
             {
-                if (unit.TryGetComponent(out PlayerMover playerMover))
-                {
-                    playerMover.AdditionalVelocity = Vector3.zero;
-                    playerMover.AdditionalVelocity = velocity;
-                }
+                playerVelocity.Change(Vector3.zero);
+                playerVelocity.Change(velocity);
             }
         }
 
@@ -56,14 +54,12 @@ namespace Traps
         {
             try
             {
-                if (GetObject(other).TryGetComponent(out PlayerMover playerMover))
-                {
-                    playerMover.AdditionalVelocity = Vector3.zero;
-                }
+                var playerVelocity = GetObject(other);
+                playerVelocity.Change(Vector3.zero);
             }catch (Exception e) { }
         }
 
-        protected override GameObject GetObject(Collider other) =>
-            other.gameObject.GetComponentInParent<PlayerMover>().gameObject;
+        protected override IChangable GetObject(Collider other) =>
+            other.gameObject.GetComponent<PlayerMover>();
     }
 }

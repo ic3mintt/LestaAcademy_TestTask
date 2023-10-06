@@ -1,9 +1,10 @@
 ﻿using System;
+using DefaultNamespace;
 using UnityEngine;
 
 namespace Player
 {
-    public class PlayerHealth: MonoBehaviour
+    public class PlayerHealth: MonoBehaviour, IChangable
     {
         [SerializeField] private float _maxHealth;
         private float _health;
@@ -14,7 +15,6 @@ namespace Player
             {
                 _health = value; 
                 OnHealthChanged?.Invoke(_health, _maxHealth);
-                Debug.Log($"Health = {_health}");
             } 
         }
         public event Action<float, float> OnHealthChanged;
@@ -22,6 +22,12 @@ namespace Player
         private void Start()
         {
             _health = _maxHealth;
+        }
+
+        public void Change(Vector3 xDamage)
+        {
+            _health -= xDamage.x;
+            OnHealthChanged?.Invoke(_health, _maxHealth);
         }
     }
 }

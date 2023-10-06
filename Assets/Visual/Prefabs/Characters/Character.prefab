@@ -1800,7 +1800,7 @@ GameObject:
   - component: {fileID: 6346963041956659298}
   - component: {fileID: 5618522081237660441}
   - component: {fileID: 6346963041956659301}
-  - component: {fileID: 6346963041956659300}
+  - component: {fileID: 193943231}
   m_Layer: 6
   m_Name: Character
   m_TagString: Untagged
@@ -1836,12 +1836,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9a85f42b508482d80e6d2d652b03fbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 2
-  _slideForce: 400
+  _speed: 4
+  _slideForce: 450
   _rigidbody: {fileID: 6346963041956659301}
   _inputHandler: {fileID: 0}
   _playerStopper: {fileID: 315741147865118960}
-  AdditionalVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &6346963041956659298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1854,7 +1853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8eb980f6e5b4887afe4a9c191723c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0.25
+  _speed: 0.3
   _inputHandler: {fileID: 0}
 --- !u!114 &5618522081237660441
 MonoBehaviour:
@@ -1885,8 +1884,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &6346963041956659300
-BoxCollider:
+--- !u!136 &193943231
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1895,9 +1894,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8973621, y: 1.5793663, z: 0.80856586}
-  m_Center: {x: -0.0030833036, y: 0.44506162, z: -0.06062448}
+  m_Radius: 0.4153377
+  m_Height: 1.6420629
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.44064438, z: 0.0061994493}
 --- !u!1 &6358023761713801859
 GameObject:
   m_ObjectHideFlags: 0

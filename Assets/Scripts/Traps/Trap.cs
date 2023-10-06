@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public abstract class Trap : MonoBehaviour
 {
-    protected List<GameObject> Units;
-
+    protected List<IChangable> Units;
+    
     protected virtual void Start()
     {
-        Units = new List<GameObject>();
+        Units = new List<IChangable>();
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -41,8 +42,7 @@ public abstract class Trap : MonoBehaviour
             {
                 Units.Add(unit);
             }
-        }
-        catch { }
+        }catch { }
     }
     
     protected virtual void RemoveUnit(Collider other)
@@ -56,7 +56,6 @@ public abstract class Trap : MonoBehaviour
             }    
         }catch{}
     }
-    
-    protected virtual GameObject GetObject(Collider other) => 
-        other.gameObject.GetComponentInParent<Rigidbody>().gameObject;
+
+    protected abstract IChangable GetObject(Collider other);
 }

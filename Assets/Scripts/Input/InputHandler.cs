@@ -5,7 +5,6 @@ namespace GameInput
 {
     public class InputHandler : MonoBehaviour
     {
-        public event Action OnSpaceUp;
         public event Action OnSpaceDown;
         public event Action<Vector3> OnWASDChange;
         public event Action<float> OnMouseXChange; 
@@ -16,7 +15,6 @@ namespace GameInput
             OnWASDChange?.Invoke(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
             if(Input.GetKeyDown(KeyCode.Space)) 
                 OnSpaceDown?.Invoke();
-            else OnSpaceUp?.Invoke();
         }
     }
 }

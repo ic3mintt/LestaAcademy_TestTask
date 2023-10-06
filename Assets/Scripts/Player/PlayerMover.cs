@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerMover : MonoBehaviour
+    public class PlayerMover : MonoBehaviour, IChangable
     {
         [Header("Values")]
         [SerializeField] private float _speed;
@@ -16,10 +16,9 @@ namespace Player
         [SerializeField] private InputHandler _inputHandler;
         [SerializeField] private PlayerStopper _playerStopper;
         
-        [HideInInspector] public Vector3 AdditionalVelocity;
-        
-        private bool _isAllowedSlide;
+        private bool _isJumpKeyPressed;
         private Vector3 _movementDirection;
+        private Vector3 _additionalVelocity;
 
         public event Action OnSliding; 
         public event Action<Vector3> OnMoving;
@@ -27,13 +26,13 @@ namespace Player
         private void OnEnable()
         {
             _inputHandler.OnWASDChange += (direction) => _movementDirection = direction;
-            _inputHandler.OnSpaceDown += () => _isAllowedSlide = true;
+            _inputHandler.OnSpaceDown += () => _isJumpKeyPressed = true;
         }
 
         private void OnDisable()
         {
             _inputHandler.OnWASDChange -= (direction) => _movementDirection = direction;
-            _inputHandler.OnSpaceDown -= () => _isAllowedSlide = true;
+            _inputHandler.OnSpaceDown -= () => _isJumpKeyPressed = true;
         }
 
         private void Update()
@@ -49,21 +48,23 @@ namespace Player
         {
             if(_playerStopper.IsStopped) return;
             
-            if (_isAllowedSlide)
+            if (_isJumpKeyPressed && Mathf.Approximately(_movementDirection.x, 0f) 
+                && _movementDirection.z > 0)
             {
                 var position = transform.position;
                 if (Physics.Raycast(position, -transform.up,  position.y + 0.1f))
                 {
                     Slide();
                 }
-                _isAllowedSlide = false;
+                _isJumpKeyPressed = false;
             }
         }
 
         private void Move()
         {
             var delta = transform.TransformDirection(_movementDirection * (_speed * Time.deltaTime));
-            _rigidbody.position += delta + AdditionalVelocity * Time.deltaTime;
+            _rigidbody.position += delta;
+            _rigidbody.position += _additionalVelocity * Time.deltaTime;
             OnMoving?.Invoke(_movementDirection);
             
         }
@@ -73,5 +74,12 @@ namespace Player
             _rigidbody.AddForce(transform.up * _slideForce);
             OnSliding?.Invoke();
         }
+
+        public void Change(Vector3 additiveVelocity)
+        {
+            _additionalVelocity = additiveVelocity;
+            if(additiveVelocity == Vector3.zero)
+                _rigidbody.velocity = Vector3.zero;
+        } 
     }
 }

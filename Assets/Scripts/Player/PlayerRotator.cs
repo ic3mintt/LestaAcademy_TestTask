@@ -28,7 +28,8 @@ namespace Player
 
         private void SetMouseX(float value)
         {
-            _mouseXDirection = Mathf.Clamp(value, -1, 1);   
+            _mouseXDirection = Mathf.Clamp(value, -1, 1); 
+            // Debug.Log(_mouseXDirection);
         }
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5420315904799147095}
   - component: {fileID: 5420315904799147088}
   m_Layer: 0
-  m_Name: HealthTakerCube
+  m_Name: Damage Trap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5420315904799147089}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 0.5, z: 3}
+  m_LocalScale: {x: 3, y: 0.3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2263183043376164336}
@@ -142,8 +142,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.5, z: 1}
-  m_Center: {x: 0, y: 0.75, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &4806990341450297947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,8 +157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RechargeDelay: 5
-  _damage: 5
   _beforeHitDelay: 1
+  _damage: 5
   _startMaterial: {fileID: 2100000, guid: 592f1f05ad33c504fbe13a556d97411e, type: 2}
   _pressedMaterial: {fileID: 2100000, guid: 73568e483524da043ac497ba066db6ef, type: 2}
   _hitMaterial: {fileID: 2100000, guid: f70df7fb323c1dd478db342929fc50ec, type: 2}

@@ -34,7 +34,7 @@ public abstract class Trap : MonoBehaviour
         RemoveUnit(other);
     }
 
-    protected virtual void Activate(){}
+    protected abstract void Activate();
     
     private void AddUnit(Collider col)
     {

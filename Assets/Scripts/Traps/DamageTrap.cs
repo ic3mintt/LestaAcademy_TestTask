@@ -15,7 +15,7 @@ namespace Traps
         [SerializeField] private Material _pressedMaterial;
         [SerializeField] private Material _hitMaterial;
         [SerializeField] private MeshRenderer _meshRenderer;
-        
+
         private Coroutine _hitCoroutine;
 
         protected override void Start()
@@ -40,7 +40,6 @@ namespace Traps
             
             yield return new WaitForSeconds(RechargeDelay);
             _meshRenderer.material = _startMaterial;
-            
             _hitCoroutine = null;
         }
 

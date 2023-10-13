@@ -26,6 +26,7 @@ namespace DefaultNamespace
 
         private void Loose()
         {
+            GameStopper.PauseGame();
             _looseCanvas.gameObject.SetActive(true);
         }
     }

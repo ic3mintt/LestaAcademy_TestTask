@@ -30,10 +30,11 @@ namespace DefaultNamespace
         private void Win(float resultTime)
         {
             _winCanvas.gameObject.SetActive(true);
-            SetTime(resultTime);
+            SetCanvasTime(resultTime);
+            GameStopper.PauseGame();
         }
 
-        private void SetTime(float resultTime)
+        private void SetCanvasTime(float resultTime)
         {
             var timeSpan = TimeSpan.FromSeconds(Mathf.Floor(resultTime));
             

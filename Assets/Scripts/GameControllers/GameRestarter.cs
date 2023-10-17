@@ -9,7 +9,6 @@ namespace DefaultNamespace
 
         public void ReloadScene()
         {
-            GameStopper.ResumeGame();
             SceneManager.LoadScene(_sceneToReload);
         }
     }

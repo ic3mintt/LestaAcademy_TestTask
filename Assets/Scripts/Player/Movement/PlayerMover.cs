@@ -14,12 +14,13 @@ namespace Player
         
         [Header("Components")]
         [SerializeField] private InputHandler _inputHandler;
-        [SerializeField] private MovementInAnimation movementInAnimation;
+        [SerializeField] private MovementInAnimation _movementInAnimation;
 
         
         public event Action OnSliding; 
         public event Action<Vector3> OnMoving;
-        
+
+        private bool _isMovementLockedInAnimation;
         private Rigidbody _rigidbody;
         private float _distanceToFeet;
         private bool _isJumpKeyPressed;
@@ -36,17 +37,19 @@ namespace Player
         {
             _inputHandler.OnWASDChange += direction => _movementDirection = direction;
             _inputHandler.OnSpaceDown += () => _isJumpKeyPressed = true;
+            _movementInAnimation.OnMovementLockChange += isLocked => _isMovementLockedInAnimation = isLocked;
         }
 
         private void OnDisable()
         {
             _inputHandler.OnWASDChange -= direction => _movementDirection = direction;
             _inputHandler.OnSpaceDown -= () => _isJumpKeyPressed = true;
+            _movementInAnimation.OnMovementLockChange -= isLocked => _isMovementLockedInAnimation = isLocked;
         }
 
         private void Update()
         {
-            if (movementInAnimation.IsStopped)
+            if (_isMovementLockedInAnimation)
                 return;
             
             Move();
@@ -54,7 +57,7 @@ namespace Player
 
         private void FixedUpdate()
         {
-            if(movementInAnimation.IsStopped) return;
+            if(_isMovementLockedInAnimation) return;
             
             if (_isJumpKeyPressed && _movementDirection.z >= 0)
             {
@@ -71,7 +74,6 @@ namespace Player
             var delta = transform.TransformDirection(_movementDirection * (_speed * Time.deltaTime));
             _rigidbody.position += delta + _additionalVelocity * Time.deltaTime;
             OnMoving?.Invoke(_movementDirection);
-            
         }
         
         private void Slide()

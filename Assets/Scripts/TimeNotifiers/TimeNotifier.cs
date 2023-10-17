@@ -7,6 +7,7 @@ namespace TimeNotifiers
     [RequireComponent(typeof(Collider))]
     public class TimeNotifier : MonoBehaviour
     {
+        public float CatchedTime;
         private bool _isWalkedThrough;
         
         public event Action<float> OnWentThrough;
@@ -16,10 +17,11 @@ namespace TimeNotifiers
             if (_isWalkedThrough)
                 return;
             
-            if(!other.TryGetComponent(out PlayerHealth health))
+            if(!other.TryGetComponent(out HealthView health))
                 return;
-            
-            OnWentThrough?.Invoke(Time.time);
+
+            CatchedTime = Time.time;
+            OnWentThrough?.Invoke(CatchedTime);
             _isWalkedThrough = true;
             enabled = false;
         }

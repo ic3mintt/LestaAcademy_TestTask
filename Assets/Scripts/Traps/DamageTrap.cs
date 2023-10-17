@@ -52,6 +52,6 @@ namespace Traps
         }
 
         protected override IChangable GetObject(Collider other) => 
-            other.gameObject.GetComponent<PlayerHealth>();
+            other.gameObject.GetComponent<HealthView>();
     }
 }

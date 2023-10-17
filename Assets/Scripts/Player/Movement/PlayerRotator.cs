@@ -1,5 +1,4 @@
-﻿using System;
-using GameInput;
+﻿using GameInput;
 using UnityEngine;
 
 namespace Player

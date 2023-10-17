@@ -49,6 +49,6 @@ namespace Traps
 
         protected override void OnTriggerStay(Collider other){}
 
-        protected override IChangable GetObject(Collider other) => other.gameObject.GetComponent<PlayerHealth>();
+        protected override IChangable GetObject(Collider other) => other.gameObject.GetComponent<HealthView>();
     }
 }

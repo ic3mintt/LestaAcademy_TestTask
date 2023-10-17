@@ -5,16 +5,16 @@ using UnityEngine.UI;
 public class PlayerHealthSetter : MonoBehaviour
 {
     [SerializeField] private Slider _healthSlider;
-    [SerializeField] private PlayerHealth _playerHealth;
+    [SerializeField] private HealthModel _healthModel;
 
     private void OnEnable()
     {
-        _playerHealth.OnHealthChanged += SetSlider;
+        _healthModel.OnHealthChanged += SetSlider;
     }
 
     private void OnDisable()
     {
-        _playerHealth.OnHealthChanged -= SetSlider;
+        _healthModel.OnHealthChanged -= SetSlider;
     }
 
     private void SetSlider(float currentValue, float maxValue)

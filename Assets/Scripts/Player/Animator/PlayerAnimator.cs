@@ -1,5 +1,4 @@
-﻿using GameInput;
-using TimeNotifiers;
+﻿using TimeNotifiers;
 using UnityEngine;
 
 namespace Player

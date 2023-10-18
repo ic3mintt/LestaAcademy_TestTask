@@ -16,7 +16,6 @@ namespace Player
         public void Change(Vector3 xDamage)
         {
             _healthController.ChangeHealthOn(xDamage.x);
-            Debug.Log($"Current health = {_healthModel.Health}");
         }
     }
 }

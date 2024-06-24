@@ -1,4 +1,4 @@
-<h1 align = "center">The test task from <a href = "https://lestagamesacademy.ru/" target="_blank">Lesta Games Academy</a></h1>
+<h1 align = "center">Simple 3D platformer</h1>
 <div>
   <h2>Targets</h2>
   <ol>
